@@ -16,7 +16,7 @@ async def downloader(bot, update):
 
     download_path = f"./downloads/{update.chat.id}/"
     try:
-        os.mkdir(download_path)
+        os.makedir(download_path)
     except FileExistsError:
         pass
 
