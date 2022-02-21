@@ -16,12 +16,11 @@ async def downloader(bot, update):
         os.mkdir("./downloads")
     except FileExistsError:
         pass
-    
     reply_ = await update.reply("🔎")
 
     download_path = f"./downloads/{update.chat.id}/"
     try:
-        os.makedir(download_path)
+        os.mkdir(download_path)
     except FileExistsError:
         pass
 
@@ -46,16 +45,11 @@ async def downloader(bot, update):
             if os.path.isdir(download_path):
                 directory_contents = os.listdir(download_path)
                 directory_contents.sort()
-                text_me = await bot.send_message(
-                        chat_id=update.chat.id,
-                        text="Found {} files".format(len(directory_contents)))
                 for files in directory_contents:
                     if "cache" not in files:
                         await reply_.edit("💥")
-                        await uploader_one(bot, update, files, text_me)
+                        await uploader_one(bot, update, files, reply_)
                         await reply_.edit("⚡️")
-                await reply_.delete()
-                await text_me.delete()
         except Exception as e:
             print(e)
             await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
@@ -63,17 +57,12 @@ async def downloader(bot, update):
         if os.path.isdir(download_path):
             directory_contents = os.listdir(download_path)
             directory_contents.sort()
-            # print(directory_contents)
-            text_me = await bot.send_message(
-                chat_id=update.chat.id,
-                text="Found {} files".format(len(directory_contents)))
             for files in directory_contents:
                 if "cache" not in files:
                     await reply_.edit("💥")
-                    await uploader_one(bot, update, files, text_me)
+                    await uploader_one(bot, update, files, reply_)
                     await reply_.edit("⚡️")
-            await reply_.delete()
-            await text_me.delete()
+    await reply_.delete()
 
 
 async def uploader_one(bot, update, file_name, text):
