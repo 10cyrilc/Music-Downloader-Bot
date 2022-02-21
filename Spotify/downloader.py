@@ -12,6 +12,11 @@ from Spotify.progress import progress_for_pyrogram
 
 
 async def downloader(bot, update):
+    try:
+        os.mkdir("./downloads")
+    except FileExistsError:
+        pass
+    
     reply_ = await update.reply("🔎")
 
     download_path = f"./downloads/{update.chat.id}/"
