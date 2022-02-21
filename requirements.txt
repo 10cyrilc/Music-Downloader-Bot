@@ -1,0 +1,9 @@
+wheel
+pyrogram
+tgcrypto
+requests
+spotdl
+aiofiles
+psutil
+motor
+dnspython
