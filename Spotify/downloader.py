@@ -1,7 +1,6 @@
 # © Cyril C Thomas
 # https://t.me/cyril_c_10
 
-from email.mime import audio
 import aiofiles
 import asyncio
 import os
@@ -16,9 +15,12 @@ async def downloader(bot, update):
         os.mkdir("./downloads")
     except FileExistsError:
         pass
+
     reply_ = await update.reply("🔎")
+    note_ = await update.reply("This might Take Some Time Please Be Patient......")
 
     download_path = f"./downloads/{update.chat.id}/"
+    
     try:
         os.mkdir(download_path)
     except FileExistsError:
@@ -63,6 +65,7 @@ async def downloader(bot, update):
                     await uploader_one(bot, update, files, reply_)
                     await reply_.edit("⚡️")
     await reply_.delete()
+    await note_.delete()
 
 
 async def uploader_one(bot, update, file_name, text):
