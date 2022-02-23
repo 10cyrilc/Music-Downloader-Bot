@@ -20,7 +20,7 @@
 
 ### On VPS or Locally
 
-##### Without Docker
+#### Without Docker
 ```
 git clone https://github.com/10cyrilc/spotify-bot.git
 cd spotify-bot
@@ -42,7 +42,7 @@ pip3 install -r requirements.txt
 python bot.py
 ```
 
-### With Docker
+#### With Docker
 ```
 Edit the config.py with required Details
 Build Dockerfile in the Repo
