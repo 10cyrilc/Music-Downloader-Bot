@@ -14,6 +14,10 @@
 
 ## Setup
 
+### On Heroku
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/10cyrilc/spotify-bot)
+
 ### On VPS or Locally
 ```
 git clone https://github.com/10cyrilc/spotify-bot.git

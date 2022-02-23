@@ -1,0 +1,58 @@
+{
+    "name": "Maintenance-BOT",
+    "description": "Telegram BOT to Download Songs from Spotify",
+    "keywords":["telegram", "bot", "spotify", "download", "best"],
+    "website": "https://github.com/10cyrilc",
+    "logo" : "https://telegra.ph/file/d89902acbb03f1ea73e62.jpg",
+    "repository": "https://github.com/10cyrilc/spotify-bot",
+     "env":{
+         "BOT_TOKEN":{
+             "description" : "Your Telegram Bot Token from @BotFather",
+             "value" : "",
+             "required" : true
+         },
+         "API_ID":{
+            "description" : "Your api_id from my.telegram.org",
+            "value" : "",
+            "required" : true 
+        },
+        "API_HASH":{
+            "description" : "Your api_hash from my.telegram.org",
+            "value" : "",
+            "required" : true
+        },
+        "LOG_CHANNEL":{
+            "description" : "ID of your LOGs Channel",
+            "value" : "",
+            "required" : true
+        },
+        "BOT_OWNER":{
+            "description" : "Your telegram ID",
+            "value" : "",
+            "required" : true
+        },
+        "MONGODB_URI":{
+            "description" : "MongoDB URI from https://www.mongodb.com/",
+            "value" : "",
+            "required" : true
+        },
+        "SESSION_NAME":{
+            "description" : "Name of Your MongoDB Collection",
+            "value" : "",
+            "required" : true
+        }
+     },
+     "buildpacks": [
+        {
+            "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+        },{
+             "url" : "heroku/python"
+         }
+     ],
+     "formation" : {
+         "worker" : {
+             "quantity" : 1,
+             "size" : "free"
+         }
+     }
+}
