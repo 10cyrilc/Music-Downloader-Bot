@@ -19,6 +19,8 @@
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/10cyrilc/spotify-bot)
 
 ### On VPS or Locally
+
+##### Without Docker
 ```
 git clone https://github.com/10cyrilc/spotify-bot.git
 cd spotify-bot
@@ -39,6 +41,13 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 python bot.py
 ```
+
+### With Docker
+```
+Edit the config.py with required Details
+Build Dockerfile in the Repo
+Run The Docker Image
+````
 
 ## Bugs
 
