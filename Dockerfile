@@ -5,8 +5,8 @@ FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN mkdir /Spotify_Down
-WORKDIR /Spotify_Down
+RUN mkdir /Song_Downloader
+WORKDIR /Song_Downloader
 
 COPY . ./
 

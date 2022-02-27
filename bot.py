@@ -11,10 +11,10 @@ from pyrogram import Client, filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from config import Config
-from Spotify.downloader import downloader
-from Spotify.broadcast import broadcast_handler
-from Spotify.commands import status, start, helper
-from Spotify.database.access_db  import db
+from Song.downloader import spot_downloader, yt_downloader
+from Song.broadcast import broadcast_handler
+from Song.commands import status, start, helper
+from Song.database.access_db  import db
 
 cbot = Client(session_name=Config.SESSION_NAME,
               bot_token=Config.BOT_TOKEN,
@@ -34,7 +34,12 @@ async def c_status(_, update):
 @cbot.on_message(filters.private & filters.regex("spotify"))
 async def c_files(bot, update):
     await db.add_user(update.chat.id)
-    await downloader(bot, update)
+    await spot_downloader(bot, update)
+
+@cbot.on_message(filters.private & filters.regex("you"))
+async def c_files(bot, update):
+    await db.add_user(update.chat.id)
+    await yt_downloader(bot, update)
 
 @cbot.on_message(filters.command('help') & filters.private)
 async def c_help(bot, update):

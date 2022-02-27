@@ -1,6 +1,6 @@
 import time
 import math
-from Spotify.commands import humanbytes
+from Song.commands import humanbytes
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
     now = time.time()

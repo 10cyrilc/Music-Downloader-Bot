@@ -1,4 +1,4 @@
-# Spotify Downloader BOT
+# Songs Downloader BOT
 
 ## Table of Contents
 * [What is This BOT?](#What-is-This-BOT?)
@@ -9,9 +9,10 @@
 
 ## What is This BOT?
 
-### Ever Wondered how to download songs from Spotify?
-### This BOT Can help you to download songs from spotify using <a href = "https://github.com/spotDL/spotify-downloader">spotdl</a>
+### Ever Wondered how to download songs from Spotify or YouTube?
 
+### This BOT Can help you to download songs from spotify using <a href = "https://github.com/spotDL/spotify-downloader">spotdl</a>
+### This BOT Can help you to download songs from YouTube using <a href = "https://github.com/spotDL/https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
 ## Setup
 
 ### On Heroku

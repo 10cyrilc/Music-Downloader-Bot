@@ -2,7 +2,7 @@
 # https://t.me/cyril_c_10
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from Spotify.database.access_db import db
+from Song.database.access_db import db
 import shutil
 import psutil
 

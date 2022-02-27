@@ -3,6 +3,7 @@ pyrogram
 tgcrypto
 requests
 spotdl
+yt-dlp
 aiofiles
 psutil
 motor
