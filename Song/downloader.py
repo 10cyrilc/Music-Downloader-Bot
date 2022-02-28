@@ -10,7 +10,7 @@ from config import Config
 
 async def spot_downloader(bot, update):
     try:
-        os.mkdir("./downloads/spot")
+        os.makedirs("./downloads/spot")
     except FileExistsError:
         pass
 
@@ -20,7 +20,7 @@ async def spot_downloader(bot, update):
     download_path = f"./downloads/spot/{update.chat.id}/"
 
     try:
-        os.mkdir(download_path)
+        os.makedirs(download_path)
     except FileExistsError:
         pass
 
@@ -68,7 +68,7 @@ async def spot_downloader(bot, update):
 
 async def yt_downloader(bot, update):
     try:
-        os.mkdir("./downloads/yt")
+        os.makedirs("./downloads/yt")
     except FileExistsError:
         pass
 
@@ -77,7 +77,7 @@ async def yt_downloader(bot, update):
     download_path = f"./downloads/yt/{update.chat.id}/"
 
     try:
-        os.mkdir(download_path)
+        os.makedirs(download_path)
     except FileExistsError:
         pass
 
