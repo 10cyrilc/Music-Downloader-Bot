@@ -50,7 +50,7 @@ async def spot_downloader(bot, update):
                 for files in directory_contents:
                     if "cache" not in files:
                         await reply_.edit("💥")
-                        await spot_upload(bot, update, files, reply_)
+                        await spot_upload(bot, update, files)
                         await reply_.edit("⚡️")
         except Exception as e:
             print(e)
@@ -62,11 +62,10 @@ async def spot_downloader(bot, update):
             for files in directory_contents:
                 if "cache" not in files:
                     await reply_.edit("💥")
-                    await spot_upload(bot, update, files, reply_)
+                    await spot_upload(bot, update, files)
                     await reply_.edit("⚡️")
     await reply_.delete()
     await note_.delete()
-    await aiofiles.os.remove(download_path)
 
 
 async def yt_downloader(bot, update):
@@ -116,7 +115,7 @@ async def yt_downloader(bot, update):
                         print(thumb)
                         if "webp" not in thumb:
                             await reply_.edit("💥")
-                            await yt_uploader(bot, update, files, reply_)
+                            await yt_uploader(bot, update, files)
                             await reply_.edit("⚡️")
                     await reply_.delete()
             except Exception as e:
@@ -139,22 +138,15 @@ async def yt_downloader(bot, update):
         except Exception as e:
             print(e)
             await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
-    await aiofiles.os.remove(download_path)
 
-async def spot_upload(bot, update, file_name, text):
-    start_time = time.time()
+async def spot_upload(bot, update, file_name):
     download_path = f"./downloads/{update.chat.id}/{file_name}"
     song_me = await bot.send_audio(
         chat_id=update.chat.id,
         audio=download_path,
         disable_notification=True,
-        reply_to_message_id=update.message_id,
-        progress=progress_for_pyrogram,
-        progress_args=(
-            "Trying to upload",
-            text,
-            start_time
-        ))
+        reply_to_message_id=update.message_id
+    )
     for_ = await song_me.forward(chat_id=Config.LOG_CHANNEL)
     await bot.send_message(text=f"**User:** [{update.from_user.first_name}](tg://user?id={str(update.from_user.id)})\n**Username:** `{update.from_user.username}`\n**UserID:** `{update.from_user.id}`",
                            disable_web_page_preview=True,
@@ -163,8 +155,7 @@ async def spot_upload(bot, update, file_name, text):
                            )
     await aiofiles.os.remove(download_path)
 
-async def yt_uploader(bot, update, file_name, text):
-    start_time = time.time()
+async def yt_uploader(bot, update, file_name):
     download_path = f"./downloads/{update.chat.id}/{file_name}"
     thumb_ = file_name.rsplit(".")[0]
     thumb_path = f"./downloads/{update.chat.id}/{thumb_}.webp"
@@ -176,16 +167,12 @@ async def yt_uploader(bot, update, file_name, text):
         audio=download_path,
         thumb=thumb_path,
         disable_notification=True,
-        reply_to_message_id=update.message_id,
-        progress=progress_for_pyrogram,
-        progress_args=(
-            "Trying to upload",
-            text,
-            start_time
-        ))
+        reply_to_message_id=update.message_id
+    )
     for_ = await song_me.forward(chat_id=Config.LOG_CHANNEL)
     await bot.send_message(text=f"**User:** [{update.from_user.first_name}](tg://user?id={str(update.from_user.id)})\n**Username:** `{update.from_user.username}`\n**UserID:** `{update.from_user.id}`",
                            disable_web_page_preview=True,
                            chat_id=Config.LOG_CHANNEL,
                            reply_to_message_id=for_.message_id
                            )
+    await aiofiles.os.remove(download_path)
