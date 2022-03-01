@@ -4,7 +4,6 @@
 import aiofiles
 import asyncio
 import os
-import time
 
 from config import Config
 
@@ -81,7 +80,7 @@ async def yt_downloader(bot, update):
     except FileExistsError:
         pass
 
-    song_url = f"yt-dlp --embed-metadata -o {download_path}%(title)s.%(ext)s -f bestaudio[ext=m4a] --write-thumbnail {update.text}"
+    song_url = f"yt-dlp --embed-metadata -o {download_path}'%(title)s.%(ext)s' -f bestaudio[ext=m4a] --write-thumbnail {update.text}"
 
     proc = await asyncio.create_subprocess_shell(
         song_url, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
@@ -94,7 +93,7 @@ async def yt_downloader(bot, update):
 
     if "Requested format" in std_err:
         try:
-            song_url = f"yt-dlp --embed-metadata -o {download_path}%(title)s.%(ext)s -f bestaudio --write-thumbnail {update.text}"
+            song_url = f"yt-dlp --embed-metadata -o {download_path}'%(title)s.%(ext)s' -f bestaudio --write-thumbnail {update.text}"
 
             proc = await asyncio.create_subprocess_shell(
                 song_url, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
