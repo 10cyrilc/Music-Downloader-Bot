@@ -28,8 +28,8 @@ async def c_start(bot, update):
     await start(bot, update)
 
 @cbot.on_message(filters.command('status') & filters.user(Config.BOT_OWNER))
-async def c_status(_, update):
-    await status(update)
+async def c_status(bot, update):
+    await status(bot, update)
 
 @cbot.on_message(filters.private & filters.regex("spotify"))
 async def c_files(bot, update):
