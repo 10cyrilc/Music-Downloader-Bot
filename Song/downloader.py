@@ -7,6 +7,7 @@ import os
 
 from config import Config
 
+
 async def spot_downloader(bot, update):
     try:
         os.makedirs("./downloads/spot")
@@ -14,7 +15,6 @@ async def spot_downloader(bot, update):
         pass
 
     reply_ = await update.reply("🔎")
-    note_ = await update.reply("This might Take Some Time Please Be Patient......")
 
     download_path = f"./downloads/spot/{update.chat.id}/"
 
@@ -62,7 +62,6 @@ async def spot_downloader(bot, update):
                     await spot_upload(bot, update, files)
                     await reply_.edit("⚡️")
     await reply_.delete()
-    await note_.delete()
 
 
 async def yt_downloader(bot, update):
@@ -80,7 +79,7 @@ async def yt_downloader(bot, update):
     except FileExistsError:
         pass
 
-    song_url = f"yt-dlp --embed-metadata -o {download_path}'%(title)s.%(ext)s' -f bestaudio[ext=m4a] --write-thumbnail {update.text}"
+    song_url = f"yt-dlp -x {update.text} --add-metadata --embed-thumbnail  --audio-format mp3 --metadata-from-title='%(artist)s - %(title)s' --prefer-ffmpeg -o {download_path}'%(title)s.%(ext)s'"
 
     proc = await asyncio.create_subprocess_shell(
         song_url, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
@@ -90,59 +89,27 @@ async def yt_downloader(bot, update):
     # print(stderr)
     std_err = stderr.decode()
     std_out = stdout.decode()
+    try:
+        if os.path.isdir(download_path):
+            directory_contents = os.listdir(download_path)
+            directory_contents.sort()
+            for files in directory_contents:
+                await reply_.edit("💥")
+                await yt_uploader(bot, update, files)
+                await reply_.edit("⚡️")
+            await reply_.delete()
+    except Exception as e:
+        print(e)
+        await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
 
-    if "Requested format" in std_err:
-        try:
-            song_url = f"yt-dlp --embed-metadata -o {download_path}'%(title)s.%(ext)s' -f bestaudio --write-thumbnail {update.text}"
-
-            proc = await asyncio.create_subprocess_shell(
-                song_url, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
-            stdout, stderr = await proc.communicate()
-            # print(stdout)
-            # print("------------------------------------------------------------------------------")
-            # print(stderr)
-            std_err = stderr.decode()
-            std_out = stdout.decode()
-            try:
-                if os.path.isdir(download_path):
-                    directory_contents = os.listdir(download_path)
-                    directory_contents.sort()
-                    for files in directory_contents:
-                        thumb = files.rsplit(".")[1]
-                        # print(thumb)
-                        if "webp" not in thumb:
-                            await reply_.edit("💥")
-                            await yt_uploader(bot, update, files)
-                            await reply_.edit("⚡️")
-                    await reply_.delete()
-            except Exception as e:
-               print(e)
-               await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
-        except Exception as e:
-            print(e)
-            await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
-    elif stdout:
-        try:
-            if os.path.isdir(download_path):
-                directory_contents = os.listdir(download_path)
-                directory_contents.sort()
-                for files in directory_contents:
-                    thumb = files.rsplit(".")[1]
-                    # print(thumb)
-                    if "webp" not in thumb:
-                        await reply_.edit("💥")
-                        await yt_uploader(bot, update, files)
-                        await reply_.edit("⚡️")
-                await reply_.delete()
-        except Exception as e:
-            print(e)
-            await reply_.edit("Song not Found......!!!!\n\nContact @c_bots_support")
 
 async def spot_upload(bot, update, file_name):
     download_path = f"./downloads/spot/{update.chat.id}/{file_name}"
+    thum_ = "./Song/thumb.jpg"
     song_me = await bot.send_audio(
         chat_id=update.chat.id,
         audio=download_path,
+        thumb=thum_,
         reply_to_message_id=update.message_id
     )
     for_ = await song_me.forward(chat_id=Config.LOG_CHANNEL)
@@ -153,17 +120,14 @@ async def spot_upload(bot, update, file_name):
                            )
     await aiofiles.os.remove(download_path)
 
+
 async def yt_uploader(bot, update, file_name):
     download_path = f"./downloads/yt/{update.chat.id}/{file_name}"
-    thumb_ = file_name.rsplit(".")[0]
-    thumb_path = f"./downloads/yt/{update.chat.id}/{thumb_}.webp"
-    # print(download_path)
-    # print(thumb_)
-    # print(thumb_path)
+    thum_ = "./Song/thumb.jpg"
     song_me = await bot.send_audio(
         chat_id=update.chat.id,
         audio=download_path,
-        thumb=thumb_path,
+        thumb=thum_,
         reply_to_message_id=update.message_id
     )
     for_ = await song_me.forward(chat_id=Config.LOG_CHANNEL)
@@ -173,4 +137,3 @@ async def yt_uploader(bot, update, file_name):
                            reply_to_message_id=for_.message_id
                            )
     await aiofiles.os.remove(download_path)
-    await aiofiles.os.remove(thumb_path)
